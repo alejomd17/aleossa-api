@@ -10,7 +10,7 @@ app = FastAPI()
 interest_rates = InterestRates()
 amortization = Amortization()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class AmortizationRequest(BaseModel):
     desembolso_date:str
@@ -64,12 +64,12 @@ async def calculate_amortization_table(request: AmortizationRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'error interno: {str(e)}')
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root():
-    try:
-        # with open("templates/amortization_test.html","r", encoding="utf-8") as file:
-        with open("templates/amortization.html","r", encoding="utf-8") as file:
-            content = file.read()
-            return HTMLResponse(content=content)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f'Error al leer el archivo HTML: {str(e)}')
+# @app.get("/", response_class=HTMLResponse)
+# async def read_root():
+#     try:
+#         # with open("templates/amortization_test.html","r", encoding="utf-8") as file:
+#         with open("templates/amortization.html","r", encoding="utf-8") as file:
+#             content = file.read()
+#             return HTMLResponse(content=content)
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f'Error al leer el archivo HTML: {str(e)}')
