@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict
 from src.interest_rates import InterestRates
 from src.amortization import Amortization
@@ -10,6 +11,19 @@ app = FastAPI()
 interest_rates = InterestRates()
 amortization = Amortization()
 
+origins = [
+    "https://aleossa.com",
+    "https://www.aleossa.com",
+    "https://aleossa-web.netlify.app",  # Por si usas el dominio de Netlify temporalmente
+    "http://localhost"  # Para desarrollo local
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["POST"],  # Asegúrate de incluir "POST"
+    allow_headers=["*"],
+)
 # app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class AmortizationRequest(BaseModel):
@@ -22,7 +36,7 @@ class AmortizationRequest(BaseModel):
     insurance: float = 0.0
     abono_capital_all: Dict[str, float]
 
-@app.post('/amortization/')
+@app.post('/amortization')
 async def calculate_amortization_table(request: AmortizationRequest):
     """
     Calcula la tabla de amortización con los parámetros proporcionados.
