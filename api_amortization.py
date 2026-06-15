@@ -38,7 +38,7 @@ class AmortizationRequest(BaseModel):
     insurance: float = 0.0
     abono_capital_all: Dict[str, float]
 
-@app.get('/health')
+@app.api_route('/health', methods=["GET", "HEAD"])
 async def health():
     return {"status": "ok"}
 
