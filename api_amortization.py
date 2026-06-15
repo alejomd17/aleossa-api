@@ -38,6 +38,10 @@ class AmortizationRequest(BaseModel):
     insurance: float = 0.0
     abono_capital_all: Dict[str, float]
 
+@app.get('/health')
+async def health():
+    return {"status": "ok"}
+
 @app.post('/amortization')
 async def calculate_amortization_table(request: AmortizationRequest):
     """
